@@ -13,6 +13,7 @@ gateway/target.rendered.json
 
 # Environment configuration
 .env
+*graphify-out/cache*
 
 # OS
 .DS_Store
