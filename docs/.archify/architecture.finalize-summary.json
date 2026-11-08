@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "finalize",
+  "status": "pass",
+  "type": "architecture",
+  "quality": "showcase",
+  "specification": {
+    "path": "D:\\pj\\me\\kien-ly.github.io\\.idea\\step-functions-mcp-orchestrator\\.archify\\architecture-step-functions-mcp-20261107-215000\\candidate.json",
+    "sha256": "241be40fb3a36dcd4552681e8146bdf303b7f98eea35d4e584f195361af1358a",
+    "bytes": 4817
+  },
+  "artifact": {
+    "path": "D:\\pj\\me\\kien-ly.github.io\\.idea\\step-functions-mcp-orchestrator\\.archify\\architecture-step-functions-mcp-20261107-215000\\architecture.html",
+    "sha256": "74313c89f8da3ffd7e4bf4d9d303ae11f794ef19875d6bad6aea1c5b59606a85",
+    "bytes": 849444
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "pass"
+  },
+  "diagnostics": [],
+  "diagnosticSummary": {
+    "total": 0,
+    "shown": 0,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "D:\\pj\\me\\kien-ly.github.io\\.idea\\step-functions-mcp-orchestrator\\.archify\\architecture-step-functions-mcp-20261107-215000\\architecture.finalize.json",
+    "summaryReceipt": "D:\\pj\\me\\kien-ly.github.io\\.idea\\step-functions-mcp-orchestrator\\.archify\\architecture-step-functions-mcp-20261107-215000\\architecture.finalize-summary.json",
+    "browserCheckReceipt": "D:\\pj\\me\\kien-ly.github.io\\.idea\\step-functions-mcp-orchestrator\\.archify\\architecture-step-functions-mcp-20261107-215000\\architecture.browser-check.json"
+  },
+  "update": {
+    "status": "current",
+    "installedVersion": "3.2.0",
+    "availableVersion": "3.2.0",
+    "releaseNotes": null,
+    "checkedAt": "2026-11-07T14:50:56.049Z",
+    "source": "network",
+    "noticeRequired": false,
+    "noticeText": null
+  },
+  "visualReview": "not-requested",
+  "durationMs": 3961,
+  "browserCheck": {
+    "requested": true,
+    "ran": true
+  },
+  "visualReviewRecommendation": {
+    "action": "inspect-route-readability",
+    "signals": {
+      "routesOverSuggestedBends": 3
+    },
+    "reason": "Automated gates passed, but crossings or detours still need perceptual review before claiming visual quality.",
+    "affectedRoutes": {
+      "crossings": [],
+      "detours": [
+        {
+          "relationship": {
+            "id": "agent-to-gw",
+            "from": "agent",
+            "to": "gateway",
+            "label": "MCP tools/call (SigV4)",
+            "collectionIndex": 1,
+            "artifactIndex": 2
+          },
+          "bends": 3,
+          "stretch": 1.322
+        },
+        {
+          "relationship": {
+            "id": "gw-to-sfn",
+            "from": "gateway",
+            "to": "sfn",
+            "label": "StartExecution / Describe",
+            "collectionIndex": 3,
+            "artifactIndex": 4
+          },
+          "bends": 3,
+          "stretch": 1.282
+        },
+        {
+          "relationship": {
+            "id": "sfn-to-glue",
+            "from": "sfn",
+            "to": "glue",
+            "label": "startJobRun.sync",
+            "collectionIndex": 4,
+            "artifactIndex": 5
+          },
+          "bends": 3,
+          "stretch": 1.302
+        }
+      ],
+      "truncated": false
+    },
+    "hints": [
+      "agent → gateway needs 3 bends: move node agent or gateway so they share a row or column with matching centers, or sit diagonally with a clear corner.",
+      "gateway → sfn needs 3 bends: move node gateway or sfn so they share a row or column with matching centers, or sit diagonally with a clear corner.",
+      "sfn → glue needs 3 bends: move node sfn or glue so they share a row or column with matching centers, or sit diagonally with a clear corner."
+    ],
+    "repair": "Trace these relationships at the desktop viewport. For Architecture, use references/architecture-layout-repair.md: reflow a blocked main path or tangled connected scene, and repair an isolated defect locally only when the surrounding composition is accepted. Preserve all semantic content and user-fixed geometry. Rerun finalize once after the edit."
+  }
+}

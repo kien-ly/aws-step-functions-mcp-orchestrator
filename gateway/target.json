@@ -1,0 +1,45 @@
+{
+  "name": "sales-ingestion-sfn-target",
+  "description": "Exposes the Sales Ingestion Standard Step Functions workflow as MCP tools via the built-in states connector.",
+  "connectorId": "states",
+  "credentials": {
+    "roleArn": "${GATEWAY_ROLE_ARN}"
+  },
+  "configuration": {
+    "operations": [
+      {
+        "name": "StartExecution",
+        "description": "Start a new execution of the pinned daily sales ingestion pipeline. Pass JSON with sourceKey inside input.",
+        "pinnedParameters": {
+          "stateMachineArn": "${STATE_MACHINE_ARN}"
+        }
+      },
+      {
+        "name": "ListExecutions",
+        "description": "List recent executions of the pinned daily sales ingestion pipeline, optionally filtered by statusFilter.",
+        "pinnedParameters": {
+          "stateMachineArn": "${STATE_MACHINE_ARN}"
+        }
+      },
+      {
+        "name": "DescribeStateMachine",
+        "description": "Retrieve metadata and ASL definition details for the pinned daily sales ingestion state machine.",
+        "pinnedParameters": {
+          "stateMachineArn": "${STATE_MACHINE_ARN}"
+        }
+      },
+      {
+        "name": "DescribeExecution",
+        "description": "Check the current status, start/stop timestamps, and output of a specific sales pipeline executionArn."
+      },
+      {
+        "name": "GetExecutionHistory",
+        "description": "Retrieve the detailed step-by-step state transition history and error causes for a specific executionArn."
+      },
+      {
+        "name": "StopExecution",
+        "description": "Stop an actively running executionArn belonging to the sales ingestion state machine."
+      }
+    ]
+  }
+}

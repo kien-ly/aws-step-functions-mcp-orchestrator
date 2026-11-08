@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "finalize",
+  "status": "pass",
+  "type": "architecture",
+  "quality": "showcase",
+  "specification": {
+    "path": "D:\\pj\\me\\kien-ly.github.io\\.idea\\step-functions-mcp-orchestrator\\.archify\\architecture-step-functions-mcp-20261107-215000\\candidate.json",
+    "sha256": "9a01a3a9c4cae541f9bf4552877edff62ec729bd3ac559857827ebcbd8a1795b",
+    "bytes": 4921
+  },
+  "artifact": {
+    "path": "D:\\pj\\me\\kien-ly.github.io\\.idea\\step-functions-mcp-orchestrator\\.archify\\architecture-step-functions-mcp-20261107-215000\\architecture.html",
+    "sha256": "f53f0646bc9c0be555200bdd6945a90d7de3e178db97bc8dab745b44d0101116",
+    "bytes": 849155
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "pass"
+  },
+  "diagnostics": [],
+  "diagnosticSummary": {
+    "total": 0,
+    "shown": 0,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "D:\\pj\\me\\kien-ly.github.io\\.idea\\step-functions-mcp-orchestrator\\.archify\\architecture-step-functions-mcp-20261107-215000\\review-3\\architecture.finalize.json",
+    "summaryReceipt": "D:\\pj\\me\\kien-ly.github.io\\.idea\\step-functions-mcp-orchestrator\\.archify\\architecture-step-functions-mcp-20261107-215000\\review-3\\architecture.finalize-summary.json",
+    "browserCheckReceipt": "D:\\pj\\me\\kien-ly.github.io\\.idea\\step-functions-mcp-orchestrator\\.archify\\architecture-step-functions-mcp-20261107-215000\\review-3\\architecture.browser-check.json"
+  },
+  "update": {
+    "status": "current",
+    "installedVersion": "3.2.0",
+    "availableVersion": "3.2.0",
+    "releaseNotes": null,
+    "checkedAt": "2026-11-07T14:50:56.049Z",
+    "source": "cache",
+    "noticeRequired": false,
+    "noticeText": null
+  },
+  "visualReview": "not-requested",
+  "durationMs": 3973,
+  "browserCheck": {
+    "requested": true,
+    "ran": true
+  },
+  "visualReviewRecommendation": {
+    "action": "inspect-route-readability",
+    "signals": {
+      "routesOverSuggestedBends": 2
+    },
+    "reason": "Automated gates passed, but crossings or detours still need perceptual review before claiming visual quality.",
+    "affectedRoutes": {
+      "crossings": [],
+      "detours": [
+        {
+          "relationship": {
+            "id": "gw-to-sfn",
+            "from": "gateway",
+            "to": "sfn",
+            "label": "StartExecution / Describe",
+            "collectionIndex": 3,
+            "artifactIndex": 4
+          },
+          "bends": 3,
+          "stretch": 1.262
+        },
+        {
+          "relationship": {
+            "id": "sfn-to-sns",
+            "from": "sfn",
+            "to": "sns",
+            "label": "Publish on failure",
+            "collectionIndex": 7,
+            "artifactIndex": 8
+          },
+          "bends": 3,
+          "stretch": 1
+        }
+      ],
+      "truncated": false
+    },
+    "hints": [
+      "gateway → sfn needs 3 bends: move node gateway or sfn so they share a row or column with matching centers, or sit diagonally with a clear corner.",
+      "sfn → sns needs 3 bends: move node sfn or sns so they share a row or column with matching centers, or sit diagonally with a clear corner."
+    ],
+    "repair": "Trace these relationships at the desktop viewport. For Architecture, use references/architecture-layout-repair.md: reflow a blocked main path or tangled connected scene, and repair an isolated defect locally only when the surrounding composition is accepted. Preserve all semantic content and user-fixed geometry. Rerun finalize once after the edit."
+  }
+}

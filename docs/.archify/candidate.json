@@ -1,0 +1,194 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Step Functions MCP Orchestration via Amazon Bedrock AgentCore Gateway",
+    "output": ".archify/architecture-step-functions-mcp-20261107-215000/architecture.html",
+    "quality_profile": "showcase"
+  },
+  "components": [
+    {
+      "id": "operator",
+      "type": "external",
+      "label": "Operator / User",
+      "sublabel": "Natural Language Prompt",
+      "pos": [40, 110],
+      "size": [140, 60]
+    },
+    {
+      "id": "agent",
+      "type": "backend",
+      "label": "AI Agent Client",
+      "sublabel": "invoke_agent.py (SigV4)",
+      "pos": [40, 260],
+      "size": [150, 60],
+      "tag": "MCP Client"
+    },
+    {
+      "id": "gateway",
+      "type": "cloud",
+      "label": "Bedrock AgentCore Gateway",
+      "sublabel": "connectorId: states",
+      "pos": [280, 260],
+      "size": [170, 60],
+      "tag": "Pinned target.json"
+    },
+    {
+      "id": "iam_gateway",
+      "type": "security",
+      "label": "Gateway Execution Role",
+      "sublabel": "Least-privilege IAM",
+      "pos": [280, 110],
+      "size": [170, 60],
+      "tag": "Scoped SFN ARN"
+    },
+    {
+      "id": "sfn",
+      "type": "backend",
+      "label": "Step Functions Workflow",
+      "sublabel": "Standard State Machine",
+      "pos": [540, 260],
+      "size": [170, 60],
+      "tag": "ValidateInput Guardrail"
+    },
+    {
+      "id": "glue",
+      "type": "backend",
+      "label": "AWS Glue PySpark Job",
+      "sublabel": "startJobRun.sync (G.1X)",
+      "pos": [800, 260],
+      "size": [160, 60],
+      "tag": "ETL Ingestion"
+    },
+    {
+      "id": "s3_data",
+      "type": "cloud",
+      "label": "Amazon S3 Data Lake",
+      "sublabel": "raw/sales/*.parquet & scripts",
+      "pos": [800, 110],
+      "size": [160, 60],
+      "tag": "Data Lake"
+    },
+    {
+      "id": "dynamodb",
+      "type": "database",
+      "label": "DynamoDB Audit Table",
+      "sublabel": "RecordSuccess (ExecutionArn)",
+      "pos": [540, 410],
+      "size": [170, 60],
+      "tag": "Audit Log"
+    },
+    {
+      "id": "sns",
+      "type": "messagebus",
+      "label": "Amazon SNS Alerts",
+      "sublabel": "NotifyFailure -> Email Topic",
+      "pos": [800, 410],
+      "size": [160, 60],
+      "tag": "Operational Alerts"
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "AWS Cloud Services",
+      "wraps": ["gateway", "iam_gateway", "sfn", "glue", "s3_data", "dynamodb", "sns"]
+    },
+    {
+      "kind": "security-group",
+      "label": "Orchestrated ETL Execution Domain",
+      "wraps": ["sfn", "glue", "dynamodb", "sns"]
+    }
+  ],
+  "connections": [
+    {
+      "id": "op-to-agent",
+      "from": "operator",
+      "to": "agent",
+      "label": "CLI / prompt",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "agent-to-gw",
+      "from": "agent",
+      "to": "gateway",
+      "label": "MCP tools/call (SigV4)",
+      "variant": "emphasis"
+    },
+    {
+      "id": "gw-iam",
+      "from": "iam_gateway",
+      "to": "gateway",
+      "label": "authorizes",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "gw-to-sfn",
+      "from": "gateway",
+      "to": "sfn",
+      "label": "StartExecution / Describe",
+      "variant": "emphasis"
+    },
+    {
+      "id": "sfn-to-glue",
+      "from": "sfn",
+      "to": "glue",
+      "label": "startJobRun.sync"
+    },
+    {
+      "id": "glue-to-s3",
+      "from": "glue",
+      "to": "s3_data",
+      "label": "read raw / write curated",
+      "fromSide": "top",
+      "toSide": "bottom"
+    },
+    {
+      "id": "sfn-to-ddb",
+      "from": "sfn",
+      "to": "dynamodb",
+      "label": "PutItem on success",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "sfn-to-sns",
+      "from": "sfn",
+      "to": "sns",
+      "label": "Publish on failure",
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "left"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "AgentCore MCP Gateway",
+      "items": [
+        "Uses built-in connector states to expose Step Functions APIs as standardized MCP tools.",
+        "Target config pins stateMachineArn so agent cannot divert to arbitrary workflows."
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Robust State Machine Orchestration",
+      "items": [
+        "ValidateInput Choice state enforces S3 path safety regex before starting heavy ETL.",
+        "startJobRun.sync synchronously tracks Glue completion with retry backoff and catch blocks."
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Least-Privilege & Observability",
+      "items": [
+        "Execution roles scoped strictly to state machine ARN and execution ARN prefix.",
+        "Audit trail persisted to DynamoDB; failures notify DataOps team via SNS alerts."
+      ]
+    }
+  ]
+}

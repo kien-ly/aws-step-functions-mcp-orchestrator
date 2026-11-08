@@ -1,0 +1,422 @@
+{
+  "communities": {
+    "0": [
+      "agent_invoke_agent",
+      "agent_invoke_agent_agentcoremcpclient",
+      "agent_invoke_agent_agentcoremcpclient_emulate_gateway_connector",
+      "agent_invoke_agent_agentcoremcpclient_init",
+      "agent_invoke_agent_agentcoremcpclient_load_pinned_state_machine_arn",
+      "agent_invoke_agent_agentcoremcpclient_rpc",
+      "agent_invoke_agent_agentcoremcpclient_send_signed_mcp_request",
+      "agent_invoke_agent_extract_source_key_from_prompt",
+      "agent_invoke_agent_main",
+      "agent_invoke_agent_parse_mcp_tool_json",
+      "agent_invoke_agent_rationale_106",
+      "agent_invoke_agent_rationale_2",
+      "agent_invoke_agent_rationale_234",
+      "agent_invoke_agent_rationale_242",
+      "agent_invoke_agent_rationale_34",
+      "agent_invoke_agent_rationale_51",
+      "agent_invoke_agent_rationale_71",
+      "agent_invoke_agent_rationale_91",
+      "any",
+      "argparse",
+      "boto3",
+      "botocore_auth",
+      "botocore_awsrequest",
+      "dotenv",
+      "json",
+      "os",
+      "re",
+      "requests",
+      "time",
+      "typing",
+      "uuid"
+    ],
+    "1": [
+      "template_command_name",
+      "template_command_pythonversion",
+      "template_command_scriptlocation",
+      "template_defaultarguments_enable_continuous_cloudwatch_log",
+      "template_defaultarguments_enable_metrics",
+      "template_defaultarguments_job_language",
+      "template_defaultarguments_tempdir",
+      "template_definitionsubstitutions_alerttopicarn",
+      "template_definitionsubstitutions_audittablename",
+      "template_definitionsubstitutions_databucketname",
+      "template_definitionsubstitutions_gluejobname",
+      "template_destinations_cloudwatchlogsloggroup",
+      "template_executionproperty_maxconcurrentruns",
+      "template_logging_destinations",
+      "template_logging_includeexecutiondata",
+      "template_logging_level",
+      "template_properties_command",
+      "template_properties_defaultarguments",
+      "template_properties_definitionsubstitutions",
+      "template_properties_definitionuri",
+      "template_properties_executionproperty",
+      "template_properties_glueversion",
+      "template_properties_logging",
+      "template_properties_name",
+      "template_properties_numberofworkers",
+      "template_properties_role",
+      "template_properties_timeout",
+      "template_properties_type",
+      "template_properties_workertype",
+      "template_salesingestiongluejob_properties",
+      "template_salesingestionstatemachine_properties"
+    ],
+    "2": [
+      "template_agentcoregatewayservicerole_type",
+      "template_glueexecutionrole_type",
+      "template_pipelinealertsubscription_properties",
+      "template_pipelinealertsubscription_type",
+      "template_pipelinealerttopic_properties",
+      "template_pipelinealerttopic_type",
+      "template_properties_endpoint",
+      "template_properties_loggroupname",
+      "template_properties_protocol",
+      "template_properties_retentionindays",
+      "template_properties_topicarn",
+      "template_properties_topicname",
+      "template_resources",
+      "template_resources_agentcoregatewayservicerole",
+      "template_resources_glueexecutionrole",
+      "template_resources_pipelinealertsubscription",
+      "template_resources_pipelinealerttopic",
+      "template_resources_salesingestiongluejob",
+      "template_resources_salesingestionloggroup",
+      "template_resources_salesingestionstatemachine",
+      "template_resources_stepfunctionsexecutionrole",
+      "template_salesingestiongluejob_type",
+      "template_salesingestionloggroup_properties",
+      "template_salesingestionloggroup_type",
+      "template_salesingestionstatemachine_type",
+      "template_stepfunctionsexecutionrole_type"
+    ],
+    "3": [
+      "_archify_architecture_step_functions_mcp_20261107_215000_architecture_domain_etl_execution",
+      "_archify_architecture_step_functions_mcp_20261107_215000_architecture_dynamodb",
+      "_archify_architecture_step_functions_mcp_20261107_215000_architecture_glue",
+      "_archify_architecture_step_functions_mcp_20261107_215000_architecture_sfn",
+      "_archify_architecture_step_functions_mcp_20261107_215000_architecture_sns",
+      "agents_project",
+      "agents_state_machine_asl",
+      "docs_article_agentcore_gateway",
+      "docs_article_agentic_orchestration",
+      "docs_article_aws_step_functions",
+      "docs_article_dynamodb_audit",
+      "docs_article_gpt_6_1_terra",
+      "docs_article_mcp",
+      "docs_article_notify_failure_fail_state",
+      "docs_article_redshift_copy",
+      "docs_article_sns_alerts",
+      "docs_article_start_glue_job_state",
+      "docs_article_states_connector",
+      "docs_article_validate_input_state",
+      "readme_architecture_summary",
+      "readme_project",
+      "readme_troubleshooting_validate_input_routing"
+    ],
+    "4": [
+      "template_agentcoregatewayrolearn_description",
+      "template_agentcoregatewayrolearn_value",
+      "template_alerttopicarn_description",
+      "template_alerttopicarn_value",
+      "template_audittablename_description",
+      "template_audittablename_value",
+      "template_databucketname_description",
+      "template_databucketname_value",
+      "template_gluejobnameoutput_description",
+      "template_gluejobnameoutput_value",
+      "template_outputs",
+      "template_outputs_agentcoregatewayrolearn",
+      "template_outputs_alerttopicarn",
+      "template_outputs_audittablename",
+      "template_outputs_databucketname",
+      "template_outputs_gluejobnameoutput",
+      "template_outputs_statemachinearn",
+      "template_outputs_statemachinename",
+      "template_statemachinearn_description",
+      "template_statemachinearn_value",
+      "template_statemachinename_description",
+      "template_statemachinename_value"
+    ],
+    "5": [
+      "_archify_architecture_step_functions_mcp_20261107_215000_architecture_gateway",
+      "_archify_architecture_step_functions_mcp_20261107_215000_architecture_iam_gateway",
+      "_archify_architecture_step_functions_mcp_20261107_215000_architecture_region_aws_cloud",
+      "_archify_architecture_step_functions_mcp_20261107_215000_architecture_s3_data",
+      "agents_deploy_script",
+      "agents_gateway_target_json",
+      "agents_prerequisites",
+      "agents_template_yaml",
+      "agents_working_rules",
+      "docs_article_agent_decision_separation",
+      "docs_article_arn_pinning",
+      "docs_article_express_workflow",
+      "docs_article_production_checklist",
+      "docs_article_risk_matrix",
+      "docs_article_standard_workflow",
+      "docs_article_two_tier_iam",
+      "readme_deployment",
+      "readme_troubleshooting_access_denied",
+      "readme_troubleshooting_arn_placeholders",
+      "readme_troubleshooting_glue_script_missing"
+    ],
+    "6": [
+      "template_agentcoregatewayservicerole_properties",
+      "template_assumerolepolicydocument_statement",
+      "template_assumerolepolicydocument_version",
+      "template_glueexecutionrole_properties",
+      "template_policies_policydocument",
+      "template_policies_policyname",
+      "template_policydocument_statement",
+      "template_policydocument_version",
+      "template_properties_assumerolepolicydocument",
+      "template_properties_description",
+      "template_properties_managedpolicyarns",
+      "template_properties_policies",
+      "template_properties_rolename",
+      "template_statement_action",
+      "template_statement_condition",
+      "template_statement_effect",
+      "template_statement_principal",
+      "template_statement_sid",
+      "template_stepfunctionsexecutionrole_properties"
+    ],
+    "7": [
+      "template",
+      "template_alertemail_default",
+      "template_alertemail_description",
+      "template_alertemail_type",
+      "template_awstemplateformatversion",
+      "template_description",
+      "template_gatewayname_default",
+      "template_gatewayname_description",
+      "template_gatewayname_type",
+      "template_gluejobname_default",
+      "template_gluejobname_description",
+      "template_gluejobname_type",
+      "template_parameters",
+      "template_parameters_alertemail",
+      "template_parameters_gatewayname",
+      "template_parameters_gluejobname",
+      "template_transform"
+    ],
+    "8": [
+      "_archify_architecture_step_functions_mcp_20261107_215000_architecture_agent",
+      "_archify_architecture_step_functions_mcp_20261107_215000_architecture_operator",
+      "agents_commands",
+      "agents_env_example",
+      "agents_invoke_agent_py",
+      "docs_article_python_mcp_client",
+      "readme_configuration",
+      "readme_invocation_validation",
+      "requirements_boto3",
+      "requirements_botocore",
+      "requirements_manifest",
+      "requirements_python_dotenv",
+      "requirements_requests"
+    ],
+    "9": [
+      "template_attributedefinitions_attributename",
+      "template_attributedefinitions_attributetype",
+      "template_keyschema_attributename",
+      "template_keyschema_keytype",
+      "template_pipelineaudittable_properties",
+      "template_pipelineaudittable_type",
+      "template_properties_attributedefinitions",
+      "template_properties_billingmode",
+      "template_properties_keyschema",
+      "template_properties_ssespecification",
+      "template_properties_tablename",
+      "template_resources_pipelineaudittable",
+      "template_ssespecification_sseenabled"
+    ],
+    "10": [
+      "template_bucketencryption_serversideencryptionconfiguration",
+      "template_properties_bucketencryption",
+      "template_properties_bucketname",
+      "template_properties_publicaccessblockconfiguration",
+      "template_publicaccessblockconfiguration_blockpublicacls",
+      "template_publicaccessblockconfiguration_blockpublicpolicy",
+      "template_publicaccessblockconfiguration_ignorepublicacls",
+      "template_publicaccessblockconfiguration_restrictpublicbuckets",
+      "template_resources_salesdatalakebucket",
+      "template_salesdatalakebucket_properties",
+      "template_salesdatalakebucket_type",
+      "template_serversideencryptionconfiguration_serversideencryptionbydefault"
+    ],
+    "11": [
+      "cleanup",
+      "cleanup_sh__entry"
+    ],
+    "12": [
+      "deploy",
+      "deploy_sh__entry"
+    ]
+  },
+  "cohesion": {
+    "0": 0.1010752688172043,
+    "1": 0.06666666666666667,
+    "2": 0.07692307692307693,
+    "3": 0.15151515151515152,
+    "4": 0.09090909090909091,
+    "5": 0.15789473684210525,
+    "6": 0.1286549707602339,
+    "7": 0.11764705882352941,
+    "8": 0.20512820512820512,
+    "9": 0.15384615384615385,
+    "10": 0.16666666666666666,
+    "11": 1.0,
+    "12": 1.0
+  },
+  "gods": [
+    {
+      "id": "template_resources",
+      "label": "Resources",
+      "degree": 11
+    },
+    {
+      "id": "agent_invoke_agent_main",
+      "label": "main()",
+      "degree": 10
+    },
+    {
+      "id": "template_salesingestiongluejob_properties",
+      "label": "Properties",
+      "degree": 10
+    },
+    {
+      "id": "agent_invoke_agent_agentcoremcpclient",
+      "label": "AgentCoreMCPClient",
+      "degree": 8
+    },
+    {
+      "id": "template_outputs",
+      "label": "Outputs",
+      "degree": 8
+    },
+    {
+      "id": "template_salesingestionstatemachine_properties",
+      "label": "Properties",
+      "degree": 7
+    },
+    {
+      "id": "docs_article_agentic_orchestration",
+      "label": "From ETL Jobs to Agentic Orchestrators (deep-dive article)",
+      "degree": 7
+    },
+    {
+      "id": "agents_deploy_script",
+      "label": "deploy.sh / cleanup.sh",
+      "degree": 7
+    },
+    {
+      "id": "template_assumerolepolicydocument_statement",
+      "label": "Statement",
+      "degree": 6
+    },
+    {
+      "id": "template_pipelineaudittable_properties",
+      "label": "Properties",
+      "degree": 6
+    }
+  ],
+  "surprises": [
+    {
+      "source": "Troubleshooting: AccessDeniedException on DescribeExecution or GetExecutionHistory",
+      "target": "Two-tier least-privilege IAM design",
+      "source_files": [
+        "README.md",
+        "docs/article.md"
+      ],
+      "confidence": "INFERRED",
+      "relation": "semantically_similar_to",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; semantically similar concepts with no structural link; peripheral node `Troubleshooting: AccessDeniedException on DescribeExecution or GetExecutionHistory` unexpectedly reaches hub `Two-tier least-privilege IAM design`"
+    },
+    {
+      "source": "Troubleshooting: Glue script S3 Object Not Found",
+      "target": "StartGlueJob state (glue startJobRun.sync)",
+      "source_files": [
+        "README.md",
+        "docs/article.md"
+      ],
+      "confidence": "INFERRED",
+      "relation": "references",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; bridges separate communities; peripheral node `Troubleshooting: Glue script S3 Object Not Found` unexpectedly reaches hub `StartGlueJob state (glue startJobRun.sync)`"
+    },
+    {
+      "source": "state-machine/ Step Functions definition",
+      "target": "NotifyFailure and WorkflowFailed Fail state",
+      "source_files": [
+        "AGENTS.md",
+        "docs/article.md"
+      ],
+      "confidence": "INFERRED",
+      "relation": "references",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; peripheral node `state-machine/ Step Functions definition` unexpectedly reaches hub `NotifyFailure and WorkflowFailed Fail state`"
+    },
+    {
+      "source": "state-machine/ Step Functions definition",
+      "target": "ValidateInput Choice state",
+      "source_files": [
+        "AGENTS.md",
+        "docs/article.md"
+      ],
+      "confidence": "INFERRED",
+      "relation": "references",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; peripheral node `state-machine/ Step Functions definition` unexpectedly reaches hub `ValidateInput Choice state`"
+    },
+    {
+      "source": "Bedrock AgentCore Gateway (connectorId: states, pinned target.json)",
+      "target": "Amazon Bedrock AgentCore Gateway",
+      "source_files": [
+        ".archify/architecture-step-functions-mcp-20261107-215000/architecture.html",
+        "docs/article.md"
+      ],
+      "confidence": "INFERRED",
+      "relation": "implements",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; bridges separate communities"
+    }
+  ],
+  "questions": [
+    {
+      "type": "ambiguous_edge",
+      "question": "What is the exact relationship between `DynamoDB audit table (RecordSuccess)` and `Redshift COPY metadata update (alternative audit path)`?",
+      "why": "Edge tagged AMBIGUOUS (relation: conceptually_related_to) - confidence is low.",
+      "low_confidence": true
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `Resources` connect `CloudFormation Resource Types` to `DynamoDB Table Schema`, `S3 Bucket Security`, `SAM Template Parameters`?",
+      "why": "High betweenness centrality (0.300) - this node is a cross-community bridge."
+    },
+    {
+      "type": "isolated_nodes",
+      "question": "What connects `Redshift COPY metadata update (alternative audit path)`, `stepfunctions-agentcore-demo project`, `Express Workflow` to the rest of the system?",
+      "why": "8 weakly-connected nodes found - possible documentation gaps or missing edges."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Agent Client and MCP RPC` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.1010752688172043 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `Outputs` connect `Stack Outputs` to `SAM Template Parameters`?",
+      "why": "High betweenness centrality (0.102) - this node is a cross-community bridge."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Glue Job Configuration` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.06666666666666667 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `Properties` connect `Glue Job Configuration` to `CloudFormation Resource Types`?",
+      "why": "High betweenness centrality (0.079) - this node is a cross-community bridge."
+    }
+  ]
+}

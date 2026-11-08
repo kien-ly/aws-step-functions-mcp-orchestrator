@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+
+# AWS SAM & Build Artifacts
+.aws-sam/
+.build_artifacts/
+gateway/target.rendered.json
+
+# Environment configuration
+.env
+
+# OS
+.DS_Store
+Thumbs.db

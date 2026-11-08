@@ -1,0 +1,10 @@
+[project]
+name = "stepfunctions-agentcore-demo"
+version = "0.1.0"
+requires-python = ">=3.13"
+dependencies = [
+    "boto3>=1.35.0",
+    "botocore>=1.35.0",
+    "python-dotenv>=1.0.1",
+    "requests>=2.32.0",
+]

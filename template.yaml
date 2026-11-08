@@ -1,0 +1,257 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  stepfunctions-agentcore-demo: Standard AWS Step Functions ETL pipeline
+  and least-privilege IAM roles for Amazon Bedrock AgentCore Gateway (MCP connectorId: states).
+
+Parameters:
+  GatewayName:
+    Type: String
+    Default: sales-data-ops-mcp-gateway
+    Description: Logical name of the Amazon Bedrock AgentCore Gateway
+  GlueJobName:
+    Type: String
+    Default: sales-daily-parquet-ingestion-job
+    Description: Name of the AWS Glue PySpark job orchestrated by Step Functions
+  AlertEmail:
+    Type: String
+    Default: dataops-alerts@example.com
+    Description: Email address for SNS pipeline failure notifications
+
+Resources:
+  # ---------------------------------------------------------------------------
+  # 1. Amazon S3 Data Lake Bucket (Raw Parquet, Curated Output, Glue Scripts)
+  # ---------------------------------------------------------------------------
+  SalesDataLakeBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub "${AWS::StackName}-data-${AWS::AccountId}-${AWS::Region}"
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+
+  # ---------------------------------------------------------------------------
+  # 2. Amazon DynamoDB Pipeline Audit Table
+  # ---------------------------------------------------------------------------
+  PipelineAuditTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub "${AWS::StackName}-audit"
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: ExecutionArn
+          AttributeType: S
+      KeySchema:
+        - AttributeName: ExecutionArn
+          KeyType: HASH
+      SSESpecification:
+        SSEEnabled: true
+
+  # ---------------------------------------------------------------------------
+  # 3. Amazon SNS Operational Alert Topic
+  # ---------------------------------------------------------------------------
+  PipelineAlertTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: !Sub "${AWS::StackName}-alerts"
+
+  PipelineAlertSubscription:
+    Type: AWS::SNS::Subscription
+    Properties:
+      TopicArn: !Ref PipelineAlertTopic
+      Protocol: email
+      Endpoint: !Ref AlertEmail
+
+  # ---------------------------------------------------------------------------
+  # 4. AWS Glue Job & Execution Role
+  # ---------------------------------------------------------------------------
+  GlueExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "${AWS::StackName}-glue-role"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: glue.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole
+      Policies:
+        - PolicyName: GlueS3DataLakeAccess
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:PutObject
+                  - s3:ListBucket
+                Resource:
+                  - !GetAtt SalesDataLakeBucket.Arn
+                  - !Sub "${SalesDataLakeBucket.Arn}/*"
+
+  SalesIngestionGlueJob:
+    Type: AWS::Glue::Job
+    Properties:
+      Name: !Ref GlueJobName
+      Role: !GetAtt GlueExecutionRole.Arn
+      GlueVersion: "4.0"
+      WorkerType: G.1X
+      NumberOfWorkers: 2
+      Timeout: 60
+      ExecutionProperty:
+        MaxConcurrentRuns: 3
+      Command:
+        Name: glueetl
+        PythonVersion: "3"
+        ScriptLocation: !Sub "s3://${SalesDataLakeBucket}/scripts/sales_etl.py"
+      DefaultArguments:
+        "--job-language": "python"
+        "--enable-metrics": "true"
+        "--enable-continuous-cloudwatch-log": "true"
+        "--TempDir": !Sub "s3://${SalesDataLakeBucket}/temp/"
+
+  # ---------------------------------------------------------------------------
+  # 5. AWS Step Functions Standard Workflow & Execution Role
+  # ---------------------------------------------------------------------------
+  StepFunctionsExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "${AWS::StackName}-sfn-exec-role"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: states.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: StepFunctionsOrchestrationPolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Sid: AllowGlueSyncJobControl
+                Effect: Allow
+                Action:
+                  - glue:StartJobRun
+                  - glue:GetJobRun
+                  - glue:GetJobRuns
+                  - glue:BatchStopJobRun
+                Resource: !Sub "arn:aws:glue:${AWS::Region}:${AWS::AccountId}:job/${GlueJobName}"
+              - Sid: AllowDynamoDBAuditWrite
+                Effect: Allow
+                Action:
+                  - dynamodb:PutItem
+                Resource: !GetAtt PipelineAuditTable.Arn
+              - Sid: AllowSNSFailurePublish
+                Effect: Allow
+                Action:
+                  - sns:Publish
+                Resource: !Ref PipelineAlertTopic
+              - Sid: AllowCloudWatchLogging
+                Effect: Allow
+                Action:
+                  - logs:CreateLogDelivery
+                  - logs:GetLogDelivery
+                  - logs:UpdateLogDelivery
+                  - logs:DeleteLogDelivery
+                  - logs:ListLogDeliveries
+                  - logs:PutResourcePolicy
+                  - logs:DescribeResourcePolicies
+                  - logs:DescribeLogGroups
+                Resource: "*"
+
+  SalesIngestionLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "/aws/vendedlogs/states/${AWS::StackName}-sales-ingestion"
+      RetentionInDays: 30
+
+  SalesIngestionStateMachine:
+    Type: AWS::Serverless::StateMachine
+    Properties:
+      Name: !Sub "${AWS::StackName}-sales-ingestion"
+      Type: STANDARD
+      Role: !GetAtt StepFunctionsExecutionRole.Arn
+      DefinitionUri: state-machine/data-pipeline.asl.json
+      DefinitionSubstitutions:
+        GlueJobName: !Ref SalesIngestionGlueJob
+        DataBucketName: !Ref SalesDataLakeBucket
+        AuditTableName: !Ref PipelineAuditTable
+        AlertTopicArn: !Ref PipelineAlertTopic
+      Logging:
+        Level: ALL
+        IncludeExecutionData: true
+        Destinations:
+          - CloudWatchLogsLogGroup:
+              LogGroupArn: !GetAtt SalesIngestionLogGroup.Arn
+
+  # ---------------------------------------------------------------------------
+  # 6. Amazon Bedrock AgentCore Gateway IAM Role (Two-Tier Resource Scoping)
+  # ---------------------------------------------------------------------------
+  AgentCoreGatewayServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "${AWS::StackName}-agentcore-gw-role"
+      Description: Least-privilege service role assumed by Amazon Bedrock AgentCore Gateway to invoke pinned Step Functions tools
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: AllowBedrockAgentCoreGatewayAssumeRole
+            Effect: Allow
+            Principal:
+              Service: bedrock-agentcore.amazonaws.com
+            Action: sts:AssumeRole
+            Condition:
+              StringEquals:
+                aws:SourceAccount: !Ref AWS::AccountId
+      Policies:
+        - PolicyName: StepFunctionsMCPConnectorLeastPrivilege
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Sid: StateMachineScopedOperations
+                Effect: Allow
+                Action:
+                  - states:StartExecution
+                  - states:ListExecutions
+                  - states:DescribeStateMachine
+                Resource: !GetAtt SalesIngestionStateMachine.Arn
+              - Sid: ExecutionScopedOperations
+                Effect: Allow
+                Action:
+                  - states:DescribeExecution
+                  - states:GetExecutionHistory
+                  - states:StopExecution
+                Resource: !Sub "arn:aws:states:${AWS::Region}:${AWS::AccountId}:execution:${SalesIngestionStateMachine.Name}:*"
+
+Outputs:
+  DataBucketName:
+    Description: S3 Bucket for raw/sales Parquet files and Glue ETL scripts
+    Value: !Ref SalesDataLakeBucket
+  GlueJobNameOutput:
+    Description: AWS Glue Job orchestrated by Step Functions
+    Value: !Ref SalesIngestionGlueJob
+  AuditTableName:
+    Description: DynamoDB table storing successful pipeline execution records
+    Value: !Ref PipelineAuditTable
+  AlertTopicArn:
+    Description: SNS topic for failed pipeline alerts
+    Value: !Ref PipelineAlertTopic
+  StateMachineArn:
+    Description: Pinned Standard Step Functions State Machine ARN
+    Value: !GetAtt SalesIngestionStateMachine.Arn
+  StateMachineName:
+    Description: Standard Step Functions State Machine Name
+    Value: !GetAtt SalesIngestionStateMachine.Name
+  AgentCoreGatewayRoleArn:
+    Description: Least-privilege IAM Role ARN for the AgentCore Gateway states target
+    Value: !GetAtt AgentCoreGatewayServiceRole.Arn

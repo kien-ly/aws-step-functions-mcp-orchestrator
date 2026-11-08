@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "command": "finalize",
+  "status": "fail",
+  "type": "architecture",
+  "quality": "showcase",
+  "specification": {
+    "path": "D:\\pj\\me\\kien-ly.github.io\\.idea\\step-functions-mcp-orchestrator\\.archify\\architecture-step-functions-mcp-20261107-215000\\candidate.json",
+    "sha256": "40467c0448b3d3ee858f1f7bb49fe80b9ff3917cdb2dd0f548d16221d3b3cd37",
+    "bytes": 5073
+  },
+  "artifact": {
+    "path": "D:\\pj\\me\\kien-ly.github.io\\.idea\\step-functions-mcp-orchestrator\\.archify\\architecture-step-functions-mcp-20261107-215000\\architecture.html",
+    "sha256": "74313c89f8da3ffd7e4bf4d9d303ae11f794ef19875d6bad6aea1c5b59606a85",
+    "bytes": 849444
+  },
+  "gates": {
+    "validate": "fail",
+    "deliver": "not-run",
+    "check": "not-run",
+    "browser-check": "not-run"
+  },
+  "failedStage": "validate",
+  "diagnostics": [
+    {
+      "code": "composition/label-gap",
+      "severity": "error",
+      "message": "Label \"CLI / prompt\" has only 50px between \"operator\" and \"agent\"; it needs at least 84px to stay beside its route — increase that clear gap or place the connected nodes on another readable row, preserving the label.",
+      "subject": {
+        "diagramType": "architecture",
+        "collection": "connections",
+        "id": "op-to-agent",
+        "from": "operator",
+        "to": "agent"
+      },
+      "evidence": {
+        "clearGapPx": 50,
+        "minimumGapPx": 84,
+        "labelWidthPx": 67.6,
+        "obstacles": [
+          "operator",
+          "agent"
+        ]
+      },
+      "supportedFixes": [
+        "increase the clear gap between the connected nodes to at least 84px",
+        "reposition the connected nodes together while preserving the full relationship label"
+      ]
+    },
+    {
+      "code": "composition/label-gap",
+      "severity": "error",
+      "message": "Label \"MCP tools/call (SigV4)\" has only 60px between \"agent\" and \"gateway\"; it needs at least 132px to stay beside its route — increase that clear gap or place the connected nodes on another readable row, preserving the label.",
+      "subject": {
+        "diagramType": "architecture",
+        "collection": "connections",
+        "id": "agent-to-gw",
+        "from": "agent",
+        "to": "gateway"
+      },
+      "evidence": {
+        "clearGapPx": 60,
+        "minimumGapPx": 132,
+        "labelWidthPx": 115.6,
+        "obstacles": [
+          "agent",
+          "gateway"
+        ]
+      },
+      "supportedFixes": [
+        "increase the clear gap between the connected nodes to at least 132px",
+        "reposition the connected nodes together while preserving the full relationship label"
+      ]
+    },
+    {
+      "code": "composition/label-gap",
+      "severity": "error",
+      "message": "Label \"StartExecution / Describe\" has only 70px between \"gateway\" and \"sfn\"; it needs at least 146px to stay beside its route — increase that clear gap or place the connected nodes on another readable row, preserving the label.",
+      "subject": {
+        "diagramType": "architecture",
+        "collection": "connections",
+        "id": "gw-to-sfn",
+        "from": "gateway",
+        "to": "sfn"
+      },
+      "evidence": {
+        "clearGapPx": 70,
+        "minimumGapPx": 146,
+        "labelWidthPx": 130,
+        "obstacles": [
+          "gateway",
+          "sfn"
+        ]
+      },
+      "supportedFixes": [
+        "increase the clear gap between the connected nodes to at least 146px",
+        "reposition the connected nodes together while preserving the full relationship label"
+      ]
+    },
+    {
+      "code": "composition/label-gap",
+      "severity": "error",
+      "message": "Label \"startJobRun.sync\" has only 70px between \"sfn\" and \"glue\"; it needs at least 103px to stay beside its route — increase that clear gap or place the connected nodes on another readable row, preserving the label.",
+      "subject": {
+        "diagramType": "architecture",
+        "collection": "connections",
+        "id": "sfn-to-glue",
+        "from": "sfn",
+        "to": "glue"
+      },
+      "evidence": {
+        "clearGapPx": 70,
+        "minimumGapPx": 103,
+        "labelWidthPx": 86.8,
+        "obstacles": [
+          "sfn",
+          "glue"
+        ]
+      },
+      "supportedFixes": [
+        "increase the clear gap between the connected nodes to at least 103px",
+        "reposition the connected nodes together while preserving the full relationship label"
+      ]
+    }
+  ],
+  "diagnosticSummary": {
+    "total": 4,
+    "shown": 4,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "D:\\pj\\me\\kien-ly.github.io\\.idea\\step-functions-mcp-orchestrator\\.archify\\architecture-step-functions-mcp-20261107-215000\\review-2\\architecture.finalize.json",
+    "summaryReceipt": "D:\\pj\\me\\kien-ly.github.io\\.idea\\step-functions-mcp-orchestrator\\.archify\\architecture-step-functions-mcp-20261107-215000\\review-2\\architecture.finalize-summary.json"
+  },
+  "update": {
+    "status": "current",
+    "installedVersion": "3.2.0",
+    "availableVersion": "3.2.0",
+    "releaseNotes": null,
+    "checkedAt": "2026-11-07T14:50:56.049Z",
+    "source": "cache",
+    "noticeRequired": false,
+    "noticeText": null
+  },
+  "visualReview": "not-requested",
+  "durationMs": 480,
+  "browserCheck": {
+    "requested": true,
+    "ran": false
+  },
+  "nextAction": {
+    "action": "edit-in-place",
+    "candidate": "D:\\pj\\me\\kien-ly.github.io\\.idea\\step-functions-mcp-orchestrator\\.archify\\architecture-step-functions-mcp-20261107-215000\\candidate.json",
+    "constraint": "Preserve unaffected semantics and geometry; apply each diagnostic's supportedFixes, or the fix its message names, and do not replace the whole candidate.",
+    "then": "finalize-once"
+  }
+}

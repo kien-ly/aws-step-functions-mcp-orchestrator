@@ -1,0 +1,132 @@
+{
+  "Comment": "Standard Step Functions workflow exposed as an MCP tool via Amazon Bedrock AgentCore Gateway (connectorId: states)",
+  "StartAt": "ValidateInput",
+  "TimeoutSeconds": 7200,
+  "States": {
+    "ValidateInput": {
+      "Type": "Choice",
+      "Comment": "Validate that sourceKey is present, is a string, and adheres to raw/sales/*.parquet",
+      "Choices": [
+        {
+          "And": [
+            {
+              "Variable": "$.sourceKey",
+              "IsPresent": true
+            },
+            {
+              "Variable": "$.sourceKey",
+              "IsString": true
+            },
+            {
+              "Variable": "$.sourceKey",
+              "StringMatches": "raw/sales/*.parquet"
+            }
+          ],
+          "Next": "StartGlueJob"
+        }
+      ],
+      "Default": "FormatValidationFailure"
+    },
+    "FormatValidationFailure": {
+      "Type": "Pass",
+      "Comment": "Construct structured error context when input validation fails",
+      "Parameters": {
+        "sourceKey.$": "$.sourceKey",
+        "errorInfo": {
+          "Error": "InvalidInputParameterException",
+          "Cause": "Input payload must include a valid sourceKey matching raw/sales/*.parquet"
+        }
+      },
+      "Next": "NotifyFailure"
+    },
+    "StartGlueJob": {
+      "Type": "Task",
+      "Comment": "Run the AWS Glue PySpark ingestion job synchronously (.sync) with retry and catch boundaries",
+      "Resource": "arn:aws:states:::glue:startJobRun.sync",
+      "TimeoutSeconds": 3600,
+      "Parameters": {
+        "JobName": "${GlueJobName}",
+        "Arguments": {
+          "--source_key.$": "$.sourceKey",
+          "--data_bucket": "${DataBucketName}",
+          "--execution_id.$": "$$.Execution.Id"
+        }
+      },
+      "ResultPath": "$.glueResult",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Glue.ConcurrentRunsExceededException",
+            "Glue.ResourceNumberLimitExceededException",
+            "Glue.InternalServiceException",
+            "States.TaskFailed"
+          ],
+          "IntervalSeconds": 15,
+          "MaxAttempts": 2,
+          "BackoffRate": 2.0
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "ResultPath": "$.errorInfo",
+          "Next": "NotifyFailure"
+        }
+      ],
+      "Next": "RecordSuccess"
+    },
+    "RecordSuccess": {
+      "Type": "Task",
+      "Comment": "Record successful ingestion run in the DynamoDB pipeline audit table",
+      "Resource": "arn:aws:states:::dynamodb:putItem",
+      "Parameters": {
+        "TableName": "${AuditTableName}",
+        "Item": {
+          "ExecutionArn": {
+            "S.$": "$$.Execution.Id"
+          },
+          "SourceKey": {
+            "S.$": "$.sourceKey"
+          },
+          "GlueJobRunId": {
+            "S.$": "$.glueResult.Id"
+          },
+          "JobStatus": {
+            "S": "SUCCEEDED"
+          },
+          "CompletedAt": {
+            "S.$": "$$.State.EnteredTime"
+          }
+        }
+      },
+      "ResultPath": "$.auditResult",
+      "OutputPath": "$",
+      "End": true
+    },
+    "NotifyFailure": {
+      "Type": "Task",
+      "Comment": "Publish operational alert to Amazon SNS when validation or Glue ETL fails",
+      "Resource": "arn:aws:states:::sns:publish",
+      "Parameters": {
+        "TopicArn": "${AlertTopicArn}",
+        "Subject": "ALERT: AI-Triggered Sales Ingestion Pipeline Failed",
+        "Message": {
+          "executionArn.$": "$$.Execution.Id",
+          "stateMachineArn.$": "$$.StateMachine.Id",
+          "failedAt.$": "$$.State.EnteredTime",
+          "errorDetails.$": "$.errorInfo"
+        }
+      },
+      "ResultPath": "$.snsResult",
+      "Next": "WorkflowFailed"
+    },
+    "WorkflowFailed": {
+      "Type": "Fail",
+      "Comment": "Ensure the Step Functions execution terminates with FAILED status for accurate MCP DescribeExecution reporting",
+      "Error": "SalesIngestionPipelineFailed",
+      "Cause": "The sales ingestion pipeline failed during input validation or AWS Glue job execution. Inspect GetExecutionHistory for details."
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "0ba19891-0360-4732-b725-ac324de5e84e",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "D:\\pj\\me\\kien-ly.github.io\\.idea\\step-functions-mcp-orchestrator\\.archify\\architecture-step-functions-mcp-20261107-215000\\candidate.json",
+  "output": "D:\\pj\\me\\kien-ly.github.io\\.idea\\step-functions-mcp-orchestrator\\.archify\\architecture-step-functions-mcp-20261107-215000\\architecture.html",
+  "specification": {
+    "sha256": "9a01a3a9c4cae541f9bf4552877edff62ec729bd3ac559857827ebcbd8a1795b",
+    "bytes": 4921
+  },
+  "artifact": {
+    "sha256": "f53f0646bc9c0be555200bdd6945a90d7de3e178db97bc8dab745b44d0101116",
+    "bytes": 849155
+  }
+}

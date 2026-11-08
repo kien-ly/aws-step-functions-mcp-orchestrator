@@ -1,0 +1,128 @@
+{
+  ".archify/architecture-step-functions-mcp-20261107-215000/architecture.browser-check.json": {
+    "mtime": 1794063059.5055125,
+    "seen": 1794106015.6597424,
+    "ast_hash": "c7ed02ec0731827104f08fea88d51768",
+    "semantic_hash": "c7ed02ec0731827104f08fea88d51768"
+  },
+  ".archify/architecture-step-functions-mcp-20261107-215000/architecture.delivery.json": {
+    "mtime": 1794065000.5191045,
+    "seen": 1794106015.6597517,
+    "ast_hash": "ef8f86173d72026f00b4a302db571e2e",
+    "semantic_hash": "ef8f86173d72026f00b4a302db571e2e"
+  },
+  ".archify/architecture-step-functions-mcp-20261107-215000/architecture.finalize-summary.json": {
+    "mtime": 1794063059.7605853,
+    "seen": 1794106015.6597543,
+    "ast_hash": "8b0c7c846cefa29ef6dc2ba60c0578b1",
+    "semantic_hash": "8b0c7c846cefa29ef6dc2ba60c0578b1"
+  },
+  ".archify/architecture-step-functions-mcp-20261107-215000/architecture.finalize.json": {
+    "mtime": 1794063059.703491,
+    "seen": 1794106015.6597557,
+    "ast_hash": "51fd808bbac225560330b4e131bb0c30",
+    "semantic_hash": "51fd808bbac225560330b4e131bb0c30"
+  },
+  ".archify/architecture-step-functions-mcp-20261107-215000/candidate.json": {
+    "mtime": 1794063106.387704,
+    "seen": 1794106015.659757,
+    "ast_hash": "1b2d74927ef90615e309495eb209291e",
+    "semantic_hash": "1b2d74927ef90615e309495eb209291e"
+  },
+  ".archify/architecture-step-functions-mcp-20261107-215000/review-2/architecture.finalize-summary.json": {
+    "mtime": 1794063094.1169477,
+    "seen": 1794106015.6597579,
+    "ast_hash": "9ef47f23994f7f35dd7f1ba2e6a71fcd",
+    "semantic_hash": "9ef47f23994f7f35dd7f1ba2e6a71fcd"
+  },
+  ".archify/architecture-step-functions-mcp-20261107-215000/review-2/architecture.finalize.json": {
+    "mtime": 1794063094.0579104,
+    "seen": 1794106015.659759,
+    "ast_hash": "6c8452aca02753739cc0523a492c7b73",
+    "semantic_hash": "6c8452aca02753739cc0523a492c7b73"
+  },
+  ".archify/architecture-step-functions-mcp-20261107-215000/review-3/architecture.browser-check.json": {
+    "mtime": 1794065003.1154845,
+    "seen": 1794106015.6597602,
+    "ast_hash": "e71a3e60a6fb0a4f539fa79ab2fb436a",
+    "semantic_hash": "e71a3e60a6fb0a4f539fa79ab2fb436a"
+  },
+  ".archify/architecture-step-functions-mcp-20261107-215000/review-3/architecture.finalize-summary.json": {
+    "mtime": 1794065003.4127746,
+    "seen": 1794106015.6597614,
+    "ast_hash": "e918f3dd7b7f1a86fa81c1cb95d2be76",
+    "semantic_hash": "e918f3dd7b7f1a86fa81c1cb95d2be76"
+  },
+  ".archify/architecture-step-functions-mcp-20261107-215000/review-3/architecture.finalize.json": {
+    "mtime": 1794065003.347525,
+    "seen": 1794106015.6597624,
+    "ast_hash": "278c12ae1e4034175303b3e6b0834850",
+    "semantic_hash": "278c12ae1e4034175303b3e6b0834850"
+  },
+  "agent/invoke_agent.py": {
+    "mtime": 1793886361.5898438,
+    "seen": 1794106015.6597636,
+    "ast_hash": "4f60c4ed47078584c5cf77e37395c94c",
+    "semantic_hash": "4f60c4ed47078584c5cf77e37395c94c"
+  },
+  "cleanup.sh": {
+    "mtime": 1793886113.9836645,
+    "seen": 1794106015.6597657,
+    "ast_hash": "af44bb3770341fa92191488acdc844b7",
+    "semantic_hash": "af44bb3770341fa92191488acdc844b7"
+  },
+  "deploy.sh": {
+    "mtime": 1793886132.3552377,
+    "seen": 1794106015.6597667,
+    "ast_hash": "252ffad4e796d11c3be4ad95aa574a6b",
+    "semantic_hash": "252ffad4e796d11c3be4ad95aa574a6b"
+  },
+  "gateway/target.json": {
+    "mtime": 1793886099.571821,
+    "seen": 1794106015.6597683,
+    "ast_hash": "aba7c6d4a4d95dfb38ca54df18b94a7a",
+    "semantic_hash": "aba7c6d4a4d95dfb38ca54df18b94a7a"
+  },
+  "state-machine/data-pipeline.asl.json": {
+    "mtime": 1793886177.1652138,
+    "seen": 1794106015.6597695,
+    "ast_hash": "222d03ecf586c75fcffddf49720963e7",
+    "semantic_hash": "222d03ecf586c75fcffddf49720963e7"
+  },
+  "template.yaml": {
+    "mtime": 1793886159.1386583,
+    "seen": 1794106015.659771,
+    "ast_hash": "528efcbe6ce702f1dff6390d45162941",
+    "semantic_hash": "528efcbe6ce702f1dff6390d45162941"
+  },
+  ".archify/architecture-step-functions-mcp-20261107-215000/architecture.html": {
+    "mtime": 1794064999.8691392,
+    "seen": 1794106015.6597724,
+    "ast_hash": "350bc4dfbc70d445744416b1debc8566",
+    "semantic_hash": "350bc4dfbc70d445744416b1debc8566"
+  },
+  "AGENTS.md": {
+    "mtime": 1794105570.1238642,
+    "seen": 1794106015.659773,
+    "ast_hash": "55cf23df2724fb3e04160d5cbe9556a0",
+    "semantic_hash": "55cf23df2724fb3e04160d5cbe9556a0"
+  },
+  "README.md": {
+    "mtime": 1793886297.0608084,
+    "seen": 1794106015.6597743,
+    "ast_hash": "f7332b72e8b2e60e837f34a53bb15368",
+    "semantic_hash": "f7332b72e8b2e60e837f34a53bb15368"
+  },
+  "docs/article.md": {
+    "mtime": 1793891168.8688538,
+    "seen": 1794106015.6597753,
+    "ast_hash": "60e0291cd459bfab44a0f29a0aefa5bb",
+    "semantic_hash": "60e0291cd459bfab44a0f29a0aefa5bb"
+  },
+  "requirements.txt": {
+    "mtime": 1793886083.619812,
+    "seen": 1794106015.6597762,
+    "ast_hash": "b4ae33ec3944ba3e67ee550165abe018",
+    "semantic_hash": "b4ae33ec3944ba3e67ee550165abe018"
+  }
+}
