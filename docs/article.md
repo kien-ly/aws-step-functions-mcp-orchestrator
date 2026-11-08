@@ -45,7 +45,7 @@ First, a quick note on MCP. It is an open protocol, built on JSON-RPC, that lets
 
 Here is the whole flow:
 
-![Step Functions as an MCP tool through Amazon Bedrock AgentCore Gateway: the operator sends a request, the agent calls the Gateway, the Gateway runs the pinned state machine, which fans out to Glue, S3, DynamoDB and SNS](image/step-functions-mcp-orchestration-via-amazon-bedrock-agentcore-gateway.svg)
+![Step Functions as an MCP tool through Amazon Bedrock AgentCore Gateway: the operator sends a request, the agent calls the Gateway, the Gateway runs the pinned state machine, which fans out to Glue, S3, DynamoDB and SNS](https://raw.githubusercontent.com/kien-ly/aws-step-functions-mcp-orchestrator/main/docs/image/step-functions-mcp-orchestration-via-amazon-bedrock-agentcore-gateway.svg)
 
 Each layer has a narrow job:
 
@@ -90,11 +90,11 @@ Step Functions has two workflow types. For agent-driven pipelines, I would use *
 
 ## 3. The implementation, piece by piece
 
-The repository is deployed with AWS SAM (Serverless Application Model). The full, copy-paste version lives in the [demo repository](#resources--demo-repository). Four design choices took me the most time to get right, and they are the ones I would look at first.
+The repository is deployed with AWS SAM (Serverless Application Model). The full, copy-paste version lives in the [demo repository](https://github.com/kien-ly/aws-step-functions-mcp-orchestrator). Four design choices took me the most time to get right, and they are the ones I would look at first.
 
 ### 1. The state machine: validate before you spend money
 
-The first defense against a bad agent call is an explicit `ValidateInput` state in the Amazon States Language definition ([`state-machine/data-pipeline.asl.json`](../state-machine/data-pipeline.asl.json)). `StartExecution` takes its `input` as a serialized JSON string, and the Gateway's schema cannot check the contents of that string. So the workflow has to. The `Choice` state below rejects bad input right away, which costs next to nothing compared with starting a Glue job:
+The first defense against a bad agent call is an explicit `ValidateInput` state in the Amazon States Language definition ([`state-machine/data-pipeline.asl.json`](https://github.com/kien-ly/aws-step-functions-mcp-orchestrator/blob/main/state-machine/data-pipeline.asl.json)). `StartExecution` takes its `input` as a serialized JSON string, and the Gateway's schema cannot check the contents of that string. So the workflow has to. The `Choice` state below rejects bad input right away, which costs next to nothing compared with starting a Glue job:
 
 ```json
 "ValidateInput": {
@@ -129,7 +129,7 @@ One detail that has bitten people, including me in early drafts: if you route th
 
 ### 2. The Gateway target: pin what the agent should never choose
 
-The Gateway target is defined in [`gateway/target.json`](../gateway/target.json). It sets `"connectorId": "states"` and lists the operations to expose. The important part is pinning:
+The Gateway target is defined in [`gateway/target.json`](https://github.com/kien-ly/aws-step-functions-mcp-orchestrator/blob/main/gateway/target.json). It sets `"connectorId": "states"` and lists the operations to expose. The important part is pinning:
 
 * **State-machine operations** (`StartExecution`, `ListExecutions`, `DescribeStateMachine`) work on a `stateMachineArn`. We pin that value in the target. The Gateway removes the parameter from the schema the agent sees and fills it in at call time. The agent has no way to pick a different state machine.
 * **Execution operations** (`DescribeExecution`, `GetExecutionHistory`, `StopExecution`) work on an `executionArn`, which is different for every run. It cannot be pinned, so the agent passes the ARN it got back from `StartExecution`. Access is controlled by IAM resource scoping instead.
@@ -174,7 +174,7 @@ Because the execution pattern includes the state machine name, the role can only
 
 ### 4. Calling the Gateway over MCP from Python
 
-The client, [`agent/invoke_agent.py`](../agent/invoke_agent.py), speaks standard MCP JSON-RPC over SigV4-signed HTTPS. It first calls `tools/list` to check the generated schemas, then starts the run with `tools/call`:
+The client, [`agent/invoke_agent.py`](https://github.com/kien-ly/aws-step-functions-mcp-orchestrator/blob/main/agent/invoke_agent.py), speaks standard MCP JSON-RPC over SigV4-signed HTTPS. It first calls `tools/list` to check the generated schemas, then starts the run with `tools/call`:
 
 ```python
 mcp_start_request = {
@@ -277,8 +277,8 @@ AI agents do not remove the need for data engineering discipline. If anything, t
 
 The complete deployable project, including the SAM template, least-privilege IAM roles, the PySpark Glue job, and the MCP client, is in this repository:
 
-- **State machine definition:** [`state-machine/data-pipeline.asl.json`](../state-machine/data-pipeline.asl.json)
-- **AgentCore Gateway config:** [`gateway/target.json`](../gateway/target.json)
-- **SAM template:** [`template.yaml`](../template.yaml)
-- **Python agent client:** [`agent/invoke_agent.py`](../agent/invoke_agent.py)
-- **Setup guide:** [`docs/env-setup.md`](env-setup.md)
+- **State machine definition:** [`state-machine/data-pipeline.asl.json`](https://github.com/kien-ly/aws-step-functions-mcp-orchestrator/blob/main/state-machine/data-pipeline.asl.json)
+- **AgentCore Gateway config:** [`gateway/target.json`](https://github.com/kien-ly/aws-step-functions-mcp-orchestrator/blob/main/gateway/target.json)
+- **SAM template:** [`template.yaml`](https://github.com/kien-ly/aws-step-functions-mcp-orchestrator/blob/main/template.yaml)
+- **Python agent client:** [`agent/invoke_agent.py`](https://github.com/kien-ly/aws-step-functions-mcp-orchestrator/blob/main/agent/invoke_agent.py)
+- **Setup guide:** [`docs/env-setup.md`](https://github.com/kien-ly/aws-step-functions-mcp-orchestrator/blob/main/docs/env-setup.md)
